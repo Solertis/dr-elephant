@@ -46,14 +46,14 @@ class SparkUtilsTest extends FunSpec with org.scalatest.Matchers with OptionValu
 
         val (fs, path) = sparkUtils.fileSystemAndPathForEventLogDir(hadoopConfiguration,
           sparkConf,
-          Some("webhdfs://nn1.grid.example.com:50070/logs/spark"))
-        fs.getUri.toString should be("webhdfs://nn1.grid.example.com:50070")
+          Some("webhdfs://localhost:50070/logs/spark"))
+        fs.getUri.toString should be("webhdfs://localhost:50070")
         path should be(new Path("/logs/spark"))
       }
 
       it("returns a webhdfs filesystem + path based on spark.eventLog.dir when it is a webhdfs URL") {
         val hadoopConfiguration = new Configuration(false)
-        val sparkConf = new SparkConf().set("spark.eventLog.dir", "webhdfs://nn1.grid.example.com:50070/logs/spark")
+        val sparkConf = new SparkConf().set("spark.eventLog.dir", "webhdfs://localhost:50070/logs/spark")
         val sparkUtils = new SparkUtils {
           override lazy val logger = mock[Logger]
           override lazy val hadoopUtils = mock[HadoopUtils]
@@ -61,13 +61,13 @@ class SparkUtilsTest extends FunSpec with org.scalatest.Matchers with OptionValu
         }
 
         val (fs, path) = sparkUtils.fileSystemAndPathForEventLogDir(hadoopConfiguration, sparkConf, None)
-        fs.getUri.toString should be("webhdfs://nn1.grid.example.com:50070")
+        fs.getUri.toString should be("webhdfs://localhost:50070")
         path should be(new Path("/logs/spark"))
       }
 
       it("returns a webhdfs filesystem + path based on spark.eventLog.dir when it is an hdfs URL") {
         val hadoopConfiguration = new Configuration(false)
-        val sparkConf = new SparkConf().set("spark.eventLog.dir", "hdfs://nn1.grid.example.com:9000/logs/spark")
+        val sparkConf = new SparkConf().set("spark.eventLog.dir", "hdfs://localhost:9000/logs/spark")
         val sparkUtils = new SparkUtils {
           override lazy val logger = mock[Logger]
           override lazy val hadoopUtils = mock[HadoopUtils]
@@ -75,7 +75,7 @@ class SparkUtilsTest extends FunSpec with org.scalatest.Matchers with OptionValu
         }
 
         val (fs, path) = sparkUtils.fileSystemAndPathForEventLogDir(hadoopConfiguration, sparkConf, None)
-        fs.getUri.toString should be("webhdfs://nn1.grid.example.com:50070")
+        fs.getUri.toString should be("webhdfs://localhost:50070")
         path should be(new Path("/logs/spark"))
       }
 
@@ -84,7 +84,7 @@ class SparkUtilsTest extends FunSpec with org.scalatest.Matchers with OptionValu
         hadoopConfiguration.set("dfs.nameservices", "sample")
         hadoopConfiguration.set("dfs.ha.namenodes.sample", "ha1,ha2")
         hadoopConfiguration.set("dfs.namenode.http-address.sample.ha1", "sample-ha1.grid.example.com:50070")
-        hadoopConfiguration.set("dfs.namenode.http-address.sample.ha2", "sample-ha2.grid.example.com:50070")
+        hadoopConfiguration.set("dfs.namenode.http-address.sample.ha2", "localhost:50070")
 
         val sparkConf = new SparkConf().set("spark.eventLog.dir", "/logs/spark")
 
@@ -93,14 +93,14 @@ class SparkUtilsTest extends FunSpec with org.scalatest.Matchers with OptionValu
 
           override lazy val hadoopUtils = HadoopUtilsTest.newFakeHadoopUtilsForNameNode(
             ("sample-ha1.grid.example.com", ("sample-ha1.grid.example.com", "standby")),
-            ("sample-ha2.grid.example.com", ("sample-ha2.grid.example.com", "active"))
+            ("localhost", ("localhost", "active"))
           )
 
           override lazy val defaultEnv = Map.empty[String, String]
         }
 
         val (fs, path) = sparkUtils.fileSystemAndPathForEventLogDir(hadoopConfiguration, sparkConf, None)
-        fs.getUri.toString should be("webhdfs://sample-ha2.grid.example.com:50070")
+        fs.getUri.toString should be("webhdfs://localhost:50070")
         path should be(new Path("/logs/spark"))
       }
 
@@ -110,7 +110,7 @@ class SparkUtilsTest extends FunSpec with org.scalatest.Matchers with OptionValu
         hadoopConfiguration.set("dfs.ha.namenodes.sample", "ha1,ha2")
         hadoopConfiguration.set("dfs.namenode.http-address.sample.ha1", "sample-ha1.grid.example.com:50070")
         hadoopConfiguration.set("dfs.namenode.http-address.sample.ha2", "sample-ha2.grid.example.com:50070")
-        hadoopConfiguration.set("dfs.namenode.http-address", "sample.grid.example.com:50070")
+        hadoopConfiguration.set("dfs.namenode.http-address", "localhost:50070")
 
         val sparkConf = new SparkConf().set("spark.eventLog.dir", "/logs/spark")
 
@@ -126,13 +126,13 @@ class SparkUtilsTest extends FunSpec with org.scalatest.Matchers with OptionValu
         }
 
         val (fs, path) = sparkUtils.fileSystemAndPathForEventLogDir(hadoopConfiguration, sparkConf, None)
-        fs.getUri.toString should be("webhdfs://sample.grid.example.com:50070")
+        fs.getUri.toString should be("webhdfs://localhost:50070")
         path should be(new Path("/logs/spark"))
       }
 
       it("returns a webhdfs filesystem + path based on dfs.namenode.http-address and spark.eventLog.dir when the latter is a path and dfs.nameservices is not configured") {
         val hadoopConfiguration = new Configuration(false)
-        hadoopConfiguration.set("dfs.namenode.http-address", "sample.grid.example.com:50070")
+        hadoopConfiguration.set("dfs.namenode.http-address", "localhost:50070")
 
         val sparkConf = new SparkConf().set("spark.eventLog.dir", "/logs/spark")
 
@@ -148,7 +148,7 @@ class SparkUtilsTest extends FunSpec with org.scalatest.Matchers with OptionValu
         }
 
         val (fs, path) = sparkUtils.fileSystemAndPathForEventLogDir(hadoopConfiguration, sparkConf, None)
-        fs.getUri.toString should be("webhdfs://sample.grid.example.com:50070")
+        fs.getUri.toString should be("webhdfs://localhost:50070")
         path should be(new Path("/logs/spark"))
       }
 
