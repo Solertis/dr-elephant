@@ -27,7 +27,11 @@ import com.linkedin.drelephant.analysis.AnalyticJobGeneratorHadoop2;
 import com.linkedin.drelephant.security.HadoopSecurity;
 
 import controllers.MetricsController;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.security.PrivilegedAction;
 import java.util.List;
@@ -81,7 +85,20 @@ public class ElephantRunner implements Runnable {
     }
 
     try {
-      _analyticJobGenerator.configure(ElephantContext.instance().getGeneralConf());
+      //_analyticJobGenerator.configure(ElephantContext.instance().getGeneralConf());
+
+      Configuration justInTime = ElephantContext.instance().getGeneralConf();
+      // at time of writing, the configurations in hive-conf are more complete than those in hadoop-conf
+      File hiveConfDir = new File(System.getenv("HADOOP_CONF_DIR") + "/../hive-conf/");
+      for (File f : hiveConfDir.listFiles()) {
+        if (f.getName().endsWith(".xml")) {
+          // load the configurations from each .xml file in hive-conf/
+          InputStream fis = new FileInputStream(f.getCanonicalPath());
+          justInTime.addResource(fis);
+          // I think the stream will be closed by the Configuration methods (e.g. parse)
+        }
+      }
+      _analyticJobGenerator.configure(justInTime);
     } catch (Exception e) {
       logger.error("Error occurred when configuring the analysis provider.", e);
       throw new RuntimeException(e);

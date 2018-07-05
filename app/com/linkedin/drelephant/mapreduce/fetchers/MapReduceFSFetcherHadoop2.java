@@ -88,8 +88,8 @@ public class MapReduceFSFetcherHadoop2 extends MapReduceFetcher {
     logger.info("Using timezone: " + _timeZone.getID());
 
     Configuration conf = new Configuration();
-    this._historyLocation = conf.get("mapreduce.jobhistory.done-dir");
-    this._intermediateHistoryLocation = conf.get("mapreduce.jobhistory.intermediate-done-dir");
+    this._historyLocation = "/user/history/done";
+    this._intermediateHistoryLocation = "/user/history/done_intermediate";
     try {
       URI uri = new URI(this._historyLocation);
       this._fs = FileSystem.get(uri, conf);

@@ -396,7 +396,7 @@ public class ElephantContext {
   /**
    * Get the general configuration object.
    *
-   * @return the genral configuration object.
+   * @return the general configuration object.
    */
   public Configuration getGeneralConf() {
     return _generalConf;
