@@ -242,7 +242,8 @@ class SparkRestClient(sparkConf: SparkConf) {
   private def getStagesWithFailedTasks(attemptTarget: WebTarget): Seq[StageDataImpl] = {
     val target = attemptTarget.path("stages/failedTasks")
     try {
-      get(target, SparkRestObjectMapper.readValue[Seq[StageDataImpl]])
+      //get(target, SparkRestObjectMapper.readValue[Seq[StageDataImpl]])
+      Seq.empty
     } catch {
       case NonFatal(e) => {
         logger.error(s"error reading failedTasks ${target.getUri}", e)
@@ -258,7 +259,7 @@ object SparkRestClient {
   val IN_PROGRESS = ".inprogress"
   val DEFAULT_TIMEOUT = Duration(5, SECONDS);
   val CONNECTION_TIMEOUT = 5000
-  val READ_TIMEOUT = 5000
+  val READ_TIMEOUT = 300000
 
   val SparkRestObjectMapper = {
     val dateFormat = {

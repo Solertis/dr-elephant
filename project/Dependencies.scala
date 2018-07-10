@@ -96,7 +96,7 @@ object Dependencies {
     "org.scalatest" %% "scalatest" % "3.0.0" % Test,
     "com.h2database" % "h2" % "1.4.196" % Test
 
-  ) :+ sparkExclusion
+  ) :+ sparkExclusion :+ ("org.apache.spark" % "spark-sql_2.10" % sparkVersion)
 
   var dependencies = Seq(javaJdbc, javaEbean, cache)
   dependencies ++= requiredDep

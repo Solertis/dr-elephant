@@ -144,7 +144,7 @@ object SparkFetcher {
   }
 
   val SPARK_EVENT_LOG_ENABLED_KEY = "spark.eventLog.enabled"
-  val DEFAULT_TIMEOUT = Duration(5, SECONDS)
+  val DEFAULT_TIMEOUT = Duration(300, SECONDS)
   val LOG_LOCATION_URI_XML_FIELD = "event_log_location_uri"
   val FETCH_FAILED_TASKS = "fetch_failed_tasks"
 }
