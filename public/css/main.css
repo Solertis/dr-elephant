@@ -23,7 +23,7 @@
 }
 .left-table tr td {
   display: table-cell;
-  white-space: pre;
+  white-space: pre-wrap;
   word-wrap:break-word;
 }
 .left-table tr td:last-child{
@@ -147,7 +147,7 @@ body {
 }
 .hasTooltip div {
   display:none;
-  position:fixed;
+  position:absolute;
   font-size:12px;
   color:#CCCCCC;
   background:rgba(30, 30, 30, 0.9);
@@ -156,6 +156,7 @@ body {
   border:1px solid black;
   padding:5px;
   overflow:hidden;
+  width:max-content;
 }
 .hasTooltip:hover div {
   display:block;
