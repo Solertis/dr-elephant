@@ -200,6 +200,7 @@ class SparkDataCollection extends SparkApplicationData {
         info.inputBytes = sum.map(_.inputBytes).getOrElse(0L)
         info.shuffleRead = sum.map(_.shuffleRead).getOrElse(0L)
         info.shuffleWrite = sum.map(_.shuffleWrite).getOrElse(0L)
+        info.totalGCTime = sum.map(_.jvmGCTime).getOrElse(0L)
 
         _executorData.setExecutorInfo(info.execId, info)
       }

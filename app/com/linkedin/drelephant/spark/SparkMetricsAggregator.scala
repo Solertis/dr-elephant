@@ -83,7 +83,7 @@ class SparkMetricsAggregator(private val aggregatorConfigurationData: Aggregator
     var sumResourcesAllocatedForUse : BigInt = 0
     executorSummaries.foreach(
       executorSummary => {
-        var memUsedBytes: Long = executorSummary.peakJvmUsedMemory.getOrElse(JVM_USED_MEMORY, 0).asInstanceOf[Number].longValue + MemoryFormatUtils.stringToBytes(SPARK_RESERVED_MEMORY)
+        var memUsedBytes: Long = executorSummary.peakJvmUsedMemory.getOrElse(JVM_USED_MEMORY, executorSummary.memoryUsed).asInstanceOf[Number].longValue + MemoryFormatUtils.stringToBytes(SPARK_RESERVED_MEMORY)
         var timeSpent: Long = executorSummary.totalDuration
         val bytesMillisUsed = BigInt(memUsedBytes) * timeSpent
         val bytesMillisAllocated = BigInt(executorMemoryBytes) * timeSpent
