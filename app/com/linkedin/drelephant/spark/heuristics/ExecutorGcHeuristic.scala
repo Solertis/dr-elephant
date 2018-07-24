@@ -48,7 +48,7 @@ class ExecutorGcHeuristic(private val heuristicConfigurationData: HeuristicConfi
   override def apply(data: SparkApplicationData): HeuristicResult = {
     val evaluator = new Evaluator(this, data)
     var resultDetails = Seq(
-      new HeuristicResultDetails("GC time to Executor Run time ratio", evaluator.ratio.toString),
+      new HeuristicResultDetails("GC time to Executor Run time ratio", f"${evaluator.ratio}%1.4f"),
       new HeuristicResultDetails("Total GC time",  evaluator.msecToString(evaluator.jvmTime)),
       new HeuristicResultDetails("Total Executor Runtime", evaluator.msecToString(evaluator.executorRunTimeTotal))
     )

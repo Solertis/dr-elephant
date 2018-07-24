@@ -59,7 +59,7 @@ class ExecutorsHeuristic(private val heuristicConfigurationData: HeuristicConfig
   override def apply(data: SparkApplicationData): HeuristicResult = {
     val evaluator = new Evaluator(this, data)
 
-    def formatDistribution(distribution: Distribution, longFormatter: Long => String, separator: String = ", "): String = {
+    def formatDistribution(distribution: Distribution, longFormatter: Long => String, separator: String = "\n"): String = {
       val labels = Seq(
         s"min: ${longFormatter(distribution.min)}",
         s"p25: ${longFormatter(distribution.p25)}",
@@ -87,7 +87,7 @@ class ExecutorsHeuristic(private val heuristicConfigurationData: HeuristicConfig
       ),
       new HeuristicResultDetails(
         "Executor storage memory utilization rate",
-        f"${evaluator.storageMemoryUtilizationRate}%1.3f"
+        f"${evaluator.storageMemoryUtilizationRate}%1.4f"
       ),
       new HeuristicResultDetails(
         "Executor storage memory used distribution",

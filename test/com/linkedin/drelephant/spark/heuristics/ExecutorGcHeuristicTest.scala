@@ -82,7 +82,8 @@ class ExecutorGcHeuristicTest extends FunSpec with Matchers {
       it("returns the JVM GC time to Executor Run time duration") {
         val details = heuristicResultDetails.get(0)
         details.getName should include("GC time to Executor Run time ratio")
-        details.getValue should include("0.2531")
+        //details.getValue should include("0.2531")
+        details.getValue should be("0.2532")
       }
 
       it("returns the total GC time") {

@@ -106,19 +106,19 @@ class ExecutorsHeuristicTest extends FunSpec with Matchers {
       it("returns the storage memory utilization rate") {
         val details = heuristicResultDetails.get(2)
         details.getName should include("storage memory utilization rate")
-        details.getValue should be("0.500")
+        details.getValue should be("0.5000")
       }
 
       it("returns the distribution of storage memory used among executors") {
         val details = heuristicResultDetails.get(3)
         details.getName should include("storage memory used")
-        details.getValue should include regex("976.56 KB.*976.56 KB.*2.38 MB.*2.86 MB.*3.81 MB")
+        details.getValue should include regex("(?s)976.56 KB.*976.56 KB.*2.38 MB.*2.86 MB.*3.81 MB")
       }
 
       it("returns the distribution of task time among executors") {
         val details = heuristicResultDetails.get(4)
         details.getName should include("task time")
-        details.getValue should include regex("16 min 40 sec.*16 min 40 sec.*41 min 40 sec.*50 min.*1 hr 6 min 40 sec")
+        details.getValue should include regex("(?s)16 min 40 sec.*16 min 40 sec.*41 min 40 sec.*50 min.*1 hr 6 min 40 sec")
       }
 
       it("returns the total sum of task time among executors") {
@@ -130,19 +130,19 @@ class ExecutorsHeuristicTest extends FunSpec with Matchers {
       it("returns the distribution of input bytes among executors") {
         val details = heuristicResultDetails.get(6)
         details.getName should include("input bytes")
-        details.getValue should include regex("976.56 KB.*976.56 KB.*2.38 MB.*2.86 MB.*3.81 MB")
+        details.getValue should include regex("(?s)976.56 KB.*976.56 KB.*2.38 MB.*2.86 MB.*3.81 MB")
       }
 
       it("returns the distribution of shuffle read bytes among executors") {
         val details = heuristicResultDetails.get(7)
         details.getName should include("shuffle read bytes")
-        details.getValue should include regex("976.57 KB.*976.57 KB.*2.38 MB.*2.86 MB.*3.81 MB")
+        details.getValue should include regex("(?s)976.57 KB.*976.57 KB.*2.38 MB.*2.86 MB.*3.81 MB")
       }
 
       it("returns the distribution of shuffle write bytes among executors") {
         val details = heuristicResultDetails.get(8)
         details.getName should include("shuffle write bytes")
-        details.getValue should include regex("976.57 KB.*976.57 KB.*2.38 MB.*2.86 MB.*3.81 MB")
+        details.getValue should include regex("(?s)976.57 KB.*976.57 KB.*2.38 MB.*2.86 MB.*3.81 MB")
       }
     }
 
